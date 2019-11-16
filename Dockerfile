@@ -1,4 +1,4 @@
-FROM openjdk:13-jdk-alpine
+FROM openjdk:8-jdk-alpine
 ARG jar=target/testcontainer-example-*.jar
 RUN adduser -S java
 USER java

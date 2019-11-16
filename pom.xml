@@ -12,15 +12,15 @@
     <artifactId>testcontainer-example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>testcontainer-example</name>
-    <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>8</java.version>
+        <docker.image.name>mszalbach/${project.artifactId}:${project.version}</docker.image.name>
+
         <testcontainers.version>1.12.3</testcontainers.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
-
-        <docker.image.name>mszalbach/${project.artifactId}:${project.version}</docker.image.name>
+        <mockserver-client-java.version>5.5.4</mockserver-client-java.version>
     </properties>
 
     <dependencies>
@@ -61,7 +61,7 @@
         <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-client-java</artifactId>
-            <version>5.5.4</version>
+            <version>${mockserver-client-java.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

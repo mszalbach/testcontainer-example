@@ -13,6 +13,7 @@ import static io.restassured.RestAssured.given;
 import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_SERVICE_UNAVAILABLE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
@@ -21,7 +22,7 @@ class MockServerIT {
 
     // will be shared between test methods
     @Container
-    private static final MockServerContainer mockServer = new MockServerContainer();
+    private static MockServerContainer mockServer = new MockServerContainer();
 
     private MockServerClient mockServerClient;
 
@@ -38,25 +39,23 @@ class MockServerIT {
 
     @Test
     void should_return_a_response_when_configured_via_mock_server_client() {
-        mockServerClient.when(request().withPath("/")).respond(response().withStatusCode(200).withBody("Peter the person!"));
+        mockServerClient.when(request().withPath("/")).respond(response().withStatusCode(SC_OK).withBody("Peter the person!"));
 
-        var body = given().get(mockServer.getEndpoint()).then().extract().body().asString();
-
-        assertThat(body).isEqualTo("Peter the person!");
+        given().get(mockServer.getEndpoint()).then().body(is("Peter the person!"));
     }
 
     @Test
     void should_return_503_when_server_error_is_set_via_mock_server_client() {
         mockServerClient.when(request().withPath("/")).respond(response().withStatusCode(SC_SERVICE_UNAVAILABLE));
 
-        given().get(mockServer.getEndpoint()).then().statusCode(503);
+        given().get(mockServer.getEndpoint()).then().statusCode(SC_SERVICE_UNAVAILABLE);
     }
 
     @Test
     void should_be_able_to_retrive_recored_requests() {
         mockServerClient.when(request().withPath("/")).respond(response().withStatusCode(SC_OK));
 
-        given().param("query", "4").get(mockServer.getEndpoint()).then().statusCode(200);
+        given().param("query", "4").get(mockServer.getEndpoint()).then().statusCode(SC_OK);
 
         var requests = mockServerClient.retrieveRecordedRequests(request().withPath("/"));
 

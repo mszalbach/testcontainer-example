@@ -15,9 +15,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class BookController {
 
-    private final RabbitTemplate rabbitTemplate;
+    private RabbitTemplate rabbitTemplate;
 
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @Value("${openlibrary.url:http://openlibrary.org}")
     private String openlibraryUrl;

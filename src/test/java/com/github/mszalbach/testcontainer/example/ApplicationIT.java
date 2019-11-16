@@ -40,7 +40,7 @@ class ApplicationIT {
 
 
     @Container
-    private static final MockServerContainer mockServer = new MockServerContainer().withNetworkAliases("openlibrary").withNetwork(network);
+    private static MockServerContainer mockServer = new MockServerContainer().withNetworkAliases("openlibrary").withNetwork(network);
 
     @Container
     private static AppContainer app = new AppContainer()
@@ -75,15 +75,13 @@ class ApplicationIT {
         given().param("query", "Lord of the Rings").get(app.getURL("/books/search"))
                 .then().statusCode(SC_OK).body("books", is("Many books"));
 
-        var request = mockServerClient.retrieveRecordedRequests(null)[0];
-
-        assertThat(request.getFirstQueryStringParameter("q")).isEqualTo("Lord of the Rings");
+        mockServerClient.verify(request().withPath("/search.json").withQueryStringParameter("q", "Lord of the Rings"));
     }
 
     @Test
     @Timeout(20)
     void should_inform_others_when_a_book_is_added() throws Exception {
-        Book newBook = new Book.BookBuilder().isbn("1234").author("Carl Carlson").name("D'oh!").build();
+        var newBook = new Book.BookBuilder().isbn("1234").author("Carl Carlson").name("D'oh!").build();
 
         var messageFuture = subscribe();
         given().body(newBook).contentType(JSON).post(app.getURL("/books")).then().statusCode(SC_ACCEPTED);

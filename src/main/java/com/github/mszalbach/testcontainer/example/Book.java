@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(of = "isbn")
 class Book {
-    String isbn;
-    String name;
-    String author;
+    private String isbn;
+    private String name;
+    private String author;
 }

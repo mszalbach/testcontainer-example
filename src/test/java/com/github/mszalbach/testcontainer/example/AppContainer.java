@@ -11,7 +11,7 @@ class AppContainer extends GenericContainer<AppContainer> {
         waitingFor(Wait.forHttp("/actuator/health"));
     }
 
-    String getBaseURL() {
+    private String getBaseURL() {
         return "http://" + this.getContainerIpAddress() + ":" + this.getMappedPort(8080);
     }
 

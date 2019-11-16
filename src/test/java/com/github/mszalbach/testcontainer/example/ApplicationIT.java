@@ -11,7 +11,7 @@ import static org.apache.http.HttpStatus.SC_OK;
 import static org.hamcrest.CoreMatchers.is;
 
 @Testcontainers
-class ApplicationTest {
+class ApplicationIT {
 
     private static Network network = Network.newNetwork();
 

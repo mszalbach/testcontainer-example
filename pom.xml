@@ -20,7 +20,7 @@
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
 
-        <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+        <docker.image.name>mszalbach/${project.artifactId}:${project.version}</docker.image.name>
     </properties>
 
     <dependencies>
@@ -32,12 +32,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -86,10 +90,18 @@
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${docker-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <images>
                         <image>
-                            <name>%g/%a:%v</name>
+                            <name>${docker.image.name}</name>
                             <run>
                                 <ports>
                                     <port>8080:8080</port>
@@ -110,6 +122,15 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <image.name>${docker.image.name}</image.name>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>

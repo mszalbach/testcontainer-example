@@ -17,7 +17,7 @@ import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 
 @Testcontainers
-class MockServerTest {
+class MockServerIT {
 
     // will be shared between test methods
     @Container

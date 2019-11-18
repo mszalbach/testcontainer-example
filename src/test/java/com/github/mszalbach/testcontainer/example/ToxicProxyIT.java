@@ -25,7 +25,7 @@ class ToxicProxyIT {
     private static MockServerContainer mockServer = new MockServerContainer().withNetwork(network);
 
     @Container
-    private ToxiproxyContainer toxiproxy = new ToxiproxyContainer().withNetwork(network);
+    private ToxiproxyContainer toxiproxy = new ToxiproxyContainer("shopify/toxiproxy:2.1.4").withNetwork(network);
 
     private ToxiproxyContainer.ContainerProxy proxy;
 

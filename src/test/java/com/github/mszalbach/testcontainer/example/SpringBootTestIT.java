@@ -55,7 +55,6 @@ class SpringBootTestIT {
             .withQueue("booksQueue")
             .withBinding("books", "booksQueue");
 
-
     @Container
     private static MockServerContainer mockServer = new MockServerContainer();
 
@@ -72,14 +71,8 @@ class SpringBootTestIT {
     }
 
     @Test
-    void should_say_hello() throws Exception {
-        mockMvc.perform(get("/hello")).andExpect(status().isOk()).andExpect(content().string("Hello"));
-    }
-
-    @Test
     void should_search_for_books() throws Exception {
         mockServerClient.when(request().withPath("/search.json")).respond(response().withStatusCode(200).withBody("{\"books\":\"Many books\"}"));
-
 
         mockMvc.perform(get("/books/search").param("query", "Lord of the Rings"))
                 .andExpect(status().isOk())
@@ -90,7 +83,6 @@ class SpringBootTestIT {
 
     @Test
     void should_inform_others_when_a_book_is_added() throws Exception {
-
         var newBook = new Book.BookBuilder().isbn("1234").author("Carl Carlson").name("D'oh!").build();
         var newBookJson = new Gson().toJson(newBook);
         mockMvc.perform(post("/books").content(newBookJson).contentType(APPLICATION_JSON_VALUE)).andExpect(status().isAccepted());
@@ -104,7 +96,6 @@ class SpringBootTestIT {
     void newBookListener(Book receivedBook) {
         messages.add(receivedBook);
     }
-
 
     static class PropertiesInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
 

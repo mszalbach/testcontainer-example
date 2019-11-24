@@ -109,18 +109,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <images>
-                        <image>
-                            <name>${docker.image.name}</name>
-                            <run>
-                                <ports>
-                                    <port>8080:8080</port>
-                                </ports>
-                            </run>
-                        </image>
-                    </images>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

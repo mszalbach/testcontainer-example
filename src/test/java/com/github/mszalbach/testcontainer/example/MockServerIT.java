@@ -2,7 +2,7 @@ package com.github.mszalbach.testcontainer.example;
 
 import lombok.var;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockserver.client.MockServerClient;
 import org.testcontainers.containers.MockServerContainer;
@@ -24,10 +24,10 @@ class MockServerIT {
     @Container
     private static MockServerContainer mockServer = new MockServerContainer();
 
-    private MockServerClient mockServerClient;
+    private static MockServerClient mockServerClient;
 
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup() {
         mockServerClient = new MockServerClient(mockServer.getContainerIpAddress(), mockServer.getServerPort());
     }
 
@@ -52,7 +52,7 @@ class MockServerIT {
     }
 
     @Test
-    void should_be_able_to_retrive_recored_requests() {
+    void should_be_able_to_retrieve_recorded_requests() {
         mockServerClient.when(request().withPath("/")).respond(response().withStatusCode(SC_OK));
 
         given().param("query", "4").get(mockServer.getEndpoint()).then().statusCode(SC_OK);

@@ -1,5 +1,6 @@
 package com.github.mszalbach.testcontainer.example;
 
+import com.google.gson.Gson;
 import com.rabbitmq.client.ConnectionFactory;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -39,7 +40,6 @@ class ApplicationIT {
             .withQueue("booksQueue")
             .withBinding("books", "booksQueue");
 
-
     @Container
     private static MockServerContainer mockServer = new MockServerContainer().withNetworkAliases("openlibrary").withNetwork(network);
 
@@ -63,12 +63,6 @@ class ApplicationIT {
         mockServerClient.reset();
     }
 
-
-    @Test
-    void should_say_hello() {
-        given().get(app.getURL("/hello")).then().statusCode(SC_OK).body(is("Hello"));
-    }
-
     @Test
     void should_search_for_books() {
         mockServerClient.when(request().withPath("/search.json")).respond(response().withStatusCode(200).withBody("{\"books\":\"Many books\"}"));
@@ -87,7 +81,9 @@ class ApplicationIT {
         given().body(newBook).contentType(JSON).post(app.getURL("/books")).then().statusCode(SC_ACCEPTED);
 
         await().atMost(20, SECONDS).untilAsserted(() -> assertThat(messageFuture).isCompleted());
-        assertThat(messageFuture.get()).contains("1234");
+
+        var sendBook = new Gson().fromJson(messageFuture.get(), Book.class);
+        assertThat(sendBook).isEqualToComparingFieldByField(newBook);
     }
 
     private CompletableFuture<String> subscribe() throws Exception {

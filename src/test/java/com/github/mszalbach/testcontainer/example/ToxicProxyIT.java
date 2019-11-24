@@ -45,10 +45,9 @@ class ToxicProxyIT {
 
     @Test
     void should_timeout_when_done_through_toxic_proxy() throws IOException {
-        proxy.toxics().timeout("timeout", ToxicDirection.UPSTREAM, 2_000);
+        proxy.toxics().timeout("timeout", ToxicDirection.UPSTREAM, 100);
 
         assertThatExceptionOfType(NoHttpResponseException.class).isThrownBy(() -> given().get(proxyUrl()).then().statusCode(200));
-
     }
 
     private String proxyUrl() {

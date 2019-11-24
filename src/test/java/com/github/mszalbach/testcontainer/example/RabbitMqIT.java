@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
-class RabbitMQIT {
+class RabbitMqIT {
 
     // will be started before and stopped after each test method
     @Container
@@ -26,12 +26,12 @@ class RabbitMQIT {
     @Timeout(value = 30)
     void should_be_able_to_send_and_receive_a_message_from_RabbitMQ() throws Exception {
 
-        var completableFuture = new CompletableFuture<String>();
         var connectionFactory = new ConnectionFactory();
         connectionFactory.setUri(rabbitMQContainer.getAmqpUrl());
         connectionFactory.setUsername(rabbitMQContainer.getAdminUsername());
         connectionFactory.setPassword(rabbitMQContainer.getAdminPassword());
 
+        var completableFuture = new CompletableFuture<String>();
         connectionFactory.newConnection().createChannel().basicConsume("userTestQueue",
                 (consumerTag, delivery) -> completableFuture.complete(new String(delivery.getBody())),
                 (consumerTag, delivery) -> {

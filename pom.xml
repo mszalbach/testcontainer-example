@@ -15,7 +15,7 @@
 
     <properties>
         <java.version>8</java.version>
-        <docker.image.name>mszalbach/${project.artifactId}:${project.version}</docker.image.name>
+        <docker.image.name>${project.artifactId}:${project.version}</docker.image.name>
 
         <testcontainers.version>1.12.3</testcontainers.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>

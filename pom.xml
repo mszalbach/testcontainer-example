@@ -15,7 +15,7 @@
 
     <properties>
         <java.version>8</java.version>
-        <docker.image.name>${project.artifactId}:${project.version}</docker.image.name>
+        <docker.image.name>mszalbach/${project.artifactId}:${project.version}</docker.image.name>
 
         <testcontainers.version>1.12.3</testcontainers.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -101,6 +101,9 @@
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${docker-maven-plugin.version}</version>
+                <configuration>
+                    <pushRegistry>d1vse31nex01:5000</pushRegistry>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>pre-integration-test</phase>

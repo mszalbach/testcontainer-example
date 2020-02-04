@@ -15,13 +15,25 @@
 
     <properties>
         <java.version>8</java.version>
-        <docker.image.name>mszalbach/${project.artifactId}:${project.version}</docker.image.name>
+        <docker.image.name>mszalbach/${project.artifactId}:latest</docker.image.name>
 
-        <testcontainers.version>1.12.3</testcontainers.version>
+        <testcontainers.version>1.12.5</testcontainers.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
         <mockserver-client-java.version>5.5.4</mockserver-client-java.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -72,25 +84,21 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mockserver</artifactId>
-            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>rabbitmq</artifactId>
-            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>toxiproxy</artifactId>
-            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

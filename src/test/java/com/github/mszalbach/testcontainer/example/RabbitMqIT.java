@@ -1,16 +1,18 @@
 package com.github.mszalbach.testcontainer.example;
 
-import com.rabbitmq.client.ConnectionFactory;
-import lombok.var;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.concurrent.CompletableFuture;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.concurrent.CompletableFuture;
+import com.rabbitmq.client.ConnectionFactory;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import lombok.var;
 
 @Testcontainers
 class RabbitMqIT {

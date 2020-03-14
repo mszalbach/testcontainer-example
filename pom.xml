@@ -17,7 +17,7 @@
         <java.version>8</java.version>
         <docker.image.name>mszalbach/${project.artifactId}:latest</docker.image.name>
 
-        <testcontainers.version>1.12.5</testcontainers.version>
+        <testcontainers.version>1.13.0</testcontainers.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <docker-maven-plugin.version>0.31.0</docker-maven-plugin.version>
         <mockserver-client-java.version>5.5.4</mockserver-client-java.version>

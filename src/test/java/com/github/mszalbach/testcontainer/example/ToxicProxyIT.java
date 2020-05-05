@@ -26,7 +26,7 @@ class ToxicProxyIT {
     private static MockServerContainer mockServer = new MockServerContainer().withNetwork(network);
 
     @Container
-    private ToxiproxyContainer toxiproxy = new ToxiproxyContainer("shopify/toxiproxy:2.1.4").withNetwork(network);
+    private ToxiproxyContainer toxiproxy = new ToxiproxyContainer().withNetwork(network);
 
     private ToxiproxyContainer.ContainerProxy proxy;
 
@@ -40,14 +40,6 @@ class ToxicProxyIT {
         proxy.toxics().latency("latency", ToxicDirection.DOWNSTREAM, 2_000);
 
         given().get(proxyUrl()).then().time(greaterThan(1_900L));
-    }
-
-    @Test
-    void should_timeout_when_done_through_toxic_proxy() throws IOException {
-        proxy.toxics().timeout("timeout", ToxicDirection.UPSTREAM, 100);
-
-        assertThatExceptionOfType(NoHttpResponseException.class).isThrownBy(
-                () -> given().get(proxyUrl()).then().statusCode(200));
     }
 
     private String proxyUrl() {

@@ -18,7 +18,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import eu.rekawek.toxiproxy.model.ToxicDirection;
 
 @Testcontainers
-class ToxicProxyIT {
+class ToxiproxyIT {
 
     private static Network network = Network.newNetwork();
 
